@@ -4,7 +4,7 @@ select count(distinct(customer_id)) as active_customers
 from accounts
 where status = 'Active'
 
-or
+--------------alternate query------------- 
 
 select count(distinct(c.customer_id)) active_customers
 from accounts a
@@ -18,7 +18,7 @@ select customer_segment, count(*) as customer_distribution
 from customers
 group by customer_segment
 
-or
+--------------alternate query------------- 
 
 select customer_segment, count(*) customer_distribution
 from customers
@@ -44,7 +44,7 @@ from accounts
 group by account_type
 order by average_balance
 
-or
+--------------alternate query------------- 
 
 select account_type, round(avg(balance),2) average_balance
 from accounts
@@ -75,7 +75,7 @@ from transactions
 group by date_trunc('month', transaction_date)
 order by date_trunc('month', transaction_date)
 
-or
+--------------alternate query------------- 
 
 select date_part('month', transaction_date) as month,
 	   count(*) as transaction_volume
@@ -134,6 +134,23 @@ group by customer_id
 having count(distinct product) > 1
 order by customer_id
 
+14. Customers with credit cards but no loans
+
+select distinct  credit_cards.customer_id
+from credit_cards
+left join loans
+on loans.customer_id = credit_cards.customer_id
+where loans.customer_id is NULL
+order by credit_cards.customer_id
+
+--------------alternate query------------- 
+
+select distinct credit_cards.customer_id 
+from loans
+right outer join credit_cards
+on loans.customer_id = credit_cards.customer_id
+where loans.customer_id is NULL
+order by credit_cards.customer_id
 
 
 
