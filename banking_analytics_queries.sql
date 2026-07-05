@@ -99,6 +99,26 @@ select round(sum(case when transaction_type = 'Withdrawal' then 1 else 0 end) * 
 	   count(*), 1) as deposit_percentage
 from transactions
 
+11. Highest Average Account Balance by Customer Segment
+
+select customers.customer_segment, round(avg(accounts.balance),2) as highest_avg_blnc
+from customers 
+join accounts
+on customers.customer_id = accounts.customer_id
+group by customers.customer_segment
+order by avg(accounts.balance) desc
+limit 1 
+
+12. Top 100 Customers by Total Banking Value
+
+select customer_id,
+       sum(balance) total_balance
+from accounts
+group by customer_id
+order by total_balance desc
+limit 100
+
+
 
 
 
