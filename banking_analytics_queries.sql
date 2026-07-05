@@ -118,6 +118,22 @@ group by customer_id
 order by total_balance desc
 limit 100
 
+13. Customers with Multiple Banking Products(accounts, loans, credit_cards)
+
+with products as (select customer_id, account_type as product
+from accounts
+union 
+select customer_id, loan_type as product
+from loans
+union
+select customer_id, card_type as product
+from credit_cards)
+select customer_id, count( distinct product) as number_of_products
+from products
+group by customer_id
+having count(distinct product) > 1
+order by customer_id
+
 
 
 
