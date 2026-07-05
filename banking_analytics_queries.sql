@@ -152,6 +152,14 @@ on loans.customer_id = credit_cards.customer_id
 where loans.customer_id is NULL
 order by credit_cards.customer_id
 
+15. Customers with accounts but no credit cards
+
+select accounts.customer_id
+from accounts
+left join credit_cards
+on accounts.customer_id = credit_cards.customer_id
+where credit_cards.customer_id is NULL
+order by accounts.customer_id
 
 
 
