@@ -161,6 +161,32 @@ on accounts.customer_id = credit_cards.customer_id
 where credit_cards.customer_id is NULL
 order by accounts.customer_id
 
+16. Percentage of Customers owning All Major Products
+
+select count(customers.customer_id) * 100/(select count(*) from customers) || '%' as percentage
+from customers
+where exists 
+            (select 1
+	           from accounts
+			   where accounts.customer_id = customers.customer_id)
+and exists  (select 1
+             from credit_cards
+			 where credit_cards.customer_id = customers.customer_id)
+and exists  (select 1 
+             from loans
+			 where loans.customer_id = customers.customer_id)
+
+---------------alternate query----------------
+
+select count(distinct customers.customer_id) * 100/(select count(*) from customers) || '%' as percentage
+from customers
+inner join accounts
+on customers.customer_id = accounts.customer_id
+inner join credit_cards
+on customers.customer_id = credit_cards.customer_id
+inner join loans
+on customers.customer_id = loans.customer_id
+
 
 
 
