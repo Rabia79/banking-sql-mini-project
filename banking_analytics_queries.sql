@@ -186,9 +186,8 @@ inner join credit_cards
 on customers.customer_id = credit_cards.customer_id
 inner join loans
 on customers.customer_id = loans.customer_id
-
+	
 17. Branches with Highest Deposits
-
 
 select transactions.branch_id, branches.branch_name, sum(transactions.amount) as deposits
 from transactions
