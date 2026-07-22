@@ -187,6 +187,92 @@ on customers.customer_id = credit_cards.customer_id
 inner join loans
 on customers.customer_id = loans.customer_id
 
+17. Branches with Highest Deposits
+
+
+select transactions.branch_id, branches.branch_name, sum(transactions.amount) as deposits
+from transactions
+join branches
+on transactions.branch_id = branches.branch_id
+where transactions.transaction_type = 'Deposit'
+group by transactions.branch_id,  branches.branch_name
+order by deposits desc
+limit 10
+
+18. Cities with largest share of Deposits
+
+select branches.city, sum(transactions.amount) as deposits
+from transactions
+join branches
+on transactions.branch_id = branches.branch_id
+where transactions.transaction_type = 'Deposit'
+group by branches.city
+order by deposits desc
+
+19. Frequently used transaction channels
+
+select channel, count(*) usage_frequency
+from transactions
+group by channel
+order by usage_frequency desc
+
+20. Channels with highest transaction_value
+
+select channel, sum(amount) as transaction_value
+from transactions
+group by channel
+order by transaction_value desc
+
+21. Branches with more transactions processed
+
+select transactions.branch_id, branches.branch_name, count(*) as transaction_volume
+from transactions
+join branches
+on transactions.branch_id = branches.branch_id
+group by transactions.branch_id,  branches.branch_name
+order by transaction_volume desc
+
+22. Customers with most transactions
+
+select customers.customer_id, count(*) as transaction_volume
+from customers
+join accounts
+on customers.customer_id = accounts.customer_id
+join transactions
+on accounts.account_id = transactions.account_id
+group by customers.customer_id
+order by transaction_volume desc
+
+----------------- Assumption: Loan volume refers to the total value of loans issued -----------------
+
+23. Highest Loan Volume by Loan Type
+
+select loan_type, sum(loan_amount) loan_volume
+from loans
+group by loan_type
+order by loan_volume desc
+limit 1
+
+24. Customer Segments with largest loans
+
+select customers.customer_segment, sum(loan_amount) as loan_amount
+from customers
+join loans
+on customers.customer_id = loans.customer_id
+group by customers.customer_segment
+order by loan_amount desc
+
+25. Cities with Highest Loans
+
+select customers.city, sum(loan_amount) as loan_amount
+from customers
+join loans
+on customers.customer_id = loans.customer_id
+group by customers.city
+order by loan_amount desc
+limit 5
+
+
 
 
 
